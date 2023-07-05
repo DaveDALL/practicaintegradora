@@ -1,31 +1,31 @@
 const express = require('express')
 const { Router } = express
-const Chat = require('../dao/models/modelCart')
+const Chat = require('../dao/models/modelMessage')
+const Message = require('../dao/models/modelMessage')
 
 
 function customerChat(io) {
     const router = new Router()
 
-    router.get('/', async (req, res) => {
+    router.get('/:chatUser', async (req, res) => {
         let allMessages = []
-        let chatUser = ''
-        io.on('connection', async (socket) => {
+        let {chatUser} = req.params
+        io.on('connection', (socket) => {
             console.log('nuevo usuario conectado')
             socket.on('chatMessage', async (data) => {
-                if(allMessages.length > 0) {
-                    console.log(data)
-                    allMessages.push(data)
-                    socket.emit('allMessages', allMessages)
-                } else chatUser = data.user
+                await Message.create({user: chatUser, messages: allMessages})
+                console.log(data)
+                allMessages.push(data)
+                socket.emit('allMessages', allMessages)
+                try {
+                    await Message.updateOne({user: chatUser, messages: allMessages})
+        
+                }catch(err) {
+                    console.log('Error al crear el chat en mongoose ' + err)
+                }
             })
             
         })
-        try {
-            await Chat.create({user: chatUser, message: allMessages})
-
-        }catch(err) {
-            console.log('Error al crear el chat en mongoose ' + err)
-        }
         res.render('chat', {})
     })
     return router
