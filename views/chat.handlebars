@@ -1,0 +1,22 @@
+<div class="container">
+    <div>
+        <h1>Chat de Cliente de SuperArticulos</h1>
+        <div id="box" class="caja"></div>
+    </div>
+    <div>
+        <form onsubmit="return addMessages()">
+            <div class="mb-3">
+                <input type="email" id="username" placeholder="su correo...">
+            </div>
+            <div class="mb-3">
+                <textarea class="form-control" id="usermessage" cols="5" rows="3" placeholder="su mensaje..."></textarea>
+            </div>
+            <div class="mb-3">
+                <input type="submit" class="btn btn-primary mb-3" value="Enviar">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
