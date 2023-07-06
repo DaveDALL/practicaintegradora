@@ -5,6 +5,11 @@ socket.on('allMessages', (data) => {
     render(data)
 })
 
+endChat = document.getElementById('endBtn')
+endChat.addEventListener('click', closeConnection = () => {
+    socket.disconnect()
+})
+
 addMessages = () => {
     const messaging = {
         user: document.getElementById('username').value,
@@ -12,8 +17,7 @@ addMessages = () => {
     }
     socket.emit('chatMessage', messaging)
     document.getElementById('usermessage').value = ''
-
-    console.log(messaging)
+    
     return false
 }
 

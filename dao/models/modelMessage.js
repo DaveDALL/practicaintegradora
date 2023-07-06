@@ -8,10 +8,6 @@ const messageTypeSchema = new mongoose.Schema({
     }
 })
 const messageSchema = new mongoose.Schema({
-    user: {
-        type: String,
-        required: true
-    },
     messages: [messageTypeSchema]
 })
 

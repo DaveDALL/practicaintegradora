@@ -6,31 +6,41 @@ const Message = require('../dao/models/modelMessage')
 
 function customerChat(io) {
     const router = new Router()
-
-    router.get('/:chatUser', async (req, res) => {
-        let allMessages = []
-        let {chatUser} = req.params
+    let allMessages = []
+    let createdMessage = {}
+    let control = 0
+    
+    router.get('/', async (req, res) => {
+        if(control === 0) {
+            createdMessage = await Message.create({messages: allMessages})
+            control = 1
+            console.log(createdMessage)
+        }
         io.on('connection', (socket) => {
-            console.log('nuevo usuario conectado')
-            socket.on('chatMessage', async (data) => {
-                await Message.create({user: chatUser, messages: allMessages})
-                console.log(data)
+            console.log('nuevo usuario conectado ' + socket.id)
+            socket.on('chatMessage', (data) => {
                 allMessages.push(data)
-                socket.emit('allMessages', allMessages)
+                io.emit('allMessages', allMessages)
+            })
+            socket.on('disconnect', async (reason) => {
+                console.log('usuario desconectado ' + reason)
                 try {
-                    await Message.updateOne({user: chatUser, messages: allMessages})
-        
+                    console.log(allMessages, createdMessage._id)
+                    if(control === 1) {
+                        await Message.updateOne({_id: createdMessage._id}, {messages: allMessages})
+                        allMessages = []
+                        control = 0
+                    }
                 }catch(err) {
                     console.log('Error al crear el chat en mongoose ' + err)
                 }
             })
-            
         })
+        
         res.render('chat', {})
     })
+
     return router
 }
-
-
 
 module.exports = customerChat

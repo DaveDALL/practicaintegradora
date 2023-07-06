@@ -26,11 +26,11 @@ app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
 app.use('/chat', chatRouter)
 
-io.on('connection', (socket) => {
-    console.log(socket.id)
-})
+//io.on('connection', (socket) => {
+//    console.log(socket.id)
+//})
 
-server.listen(PORT, ()=> {
+server.listen(PORT, () => {
     console.log(`Server listenning at port ${PORT}`)
     Database.connect()
 })
