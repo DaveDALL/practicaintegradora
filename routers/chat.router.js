@@ -14,7 +14,6 @@ function customerChat(io) {
         if(control === 0) {
             createdMessage = await Message.create({messages: allMessages})
             control = 1
-            console.log(createdMessage)
         }
         io.on('connection', (socket) => {
             console.log('nuevo usuario conectado ' + socket.id)
@@ -25,7 +24,6 @@ function customerChat(io) {
             socket.on('disconnect', async (reason) => {
                 console.log('usuario desconectado ' + reason)
                 try {
-                    console.log(allMessages, createdMessage._id)
                     if(control === 1) {
                         await Message.updateOne({_id: createdMessage._id}, {messages: allMessages})
                         allMessages = []

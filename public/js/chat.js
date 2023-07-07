@@ -31,5 +31,6 @@ render = (data) => {
             `
         )
     }).join(' ')
+    
     document.getElementById('box').innerHTML = html
 }
