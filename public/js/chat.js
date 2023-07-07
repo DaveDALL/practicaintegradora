@@ -36,3 +36,11 @@ render = (data) => {
     
     document.getElementById('box').innerHTML = html
 }
+
+function openForm() {
+    document.getElementById("chatForm").style.display = "block";
+  }
+  
+  function closeForm() {
+    document.getElementById("chatForm").style.display = "none";
+  }
