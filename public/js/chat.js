@@ -3,6 +3,8 @@ const socket = io()
 socket.on('allMessages', (data) => {
     console.log(data)
     render(data)
+    let scrollPosition = document.getElementById('box')
+    scrollPosition.scrollTop = scrollPosition.scrollHeight
 })
 
 endChat = document.getElementById('endBtn')
