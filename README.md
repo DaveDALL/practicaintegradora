@@ -27,7 +27,9 @@ Mediante el uso de Routers de express, se crean los endopint para products y car
 - GET de producto por el ID, en la ruta **/:pid**, donde pid es el ID de productos generado por mongoDB Atlas. 
 - POST que crea un producto nuevo, en la ruta **/newproduct**, y este a su vez realiza la creación de un nuevo documentos en la base de datos Atlas, enviando un objeto, en el body en JSON, de la forma:
 
- {
+```JSON
+
+{
     "code": String,
     "title": String,
     "description": String,
@@ -38,6 +40,8 @@ Mediante el uso de Routers de express, se crean los endopint para products y car
     "category": String
   }
 
+```
+
 - POST que realiza la actualización de un producto, en la ruta **/:pid**, donde pid es el parámetro del ID del producto que se quiere actualizar. El ID del producto, es el id generado por MongoDB Atlas al momento de realizar la creación del documento. SE objeto de forma anterior con la actualización de los datos requeridos.
 - DELETE, con la ruta **/:pid** que realiza la eliminación de un producto en la base de datos mongoDB Atlas
 
@@ -46,17 +50,25 @@ Mediante el uso de Routers de express, se crean los endopint para products y car
 - GET con la ruta **/:cid** donde cid es el params que se recibe con el ID de cart que se generó en la base de datos Atlas cuando se creao un cart nuevo, esto para obtener un cart por su ID.
 - POST para crear un carrito nuevo, con la ruta **/newcart**, el cart se crea con el arrego de productos vacio, quedando de la forma:
 
+```javascript
+
 {
     products: []
 }
+
+```
 
 Cuando se crea el documento en la base datos Atla, se genera un ID del cart automáticamente.
 
 - POST en la ruta **/:cid/product/:pid**, que agregará un producto nuevo que no este en el cart, o actualizar el producto si ya sencuentra en el cart. Los params, cid representa el ID del cart y pid es el ID del producto. Por lo que en el body en JSON se recibira un objeto:
 
+```JSON
+
 {
-    qty: Number
+    "qty": Number
 }
+
+```
 
 Donde qty es la cantidad de items del mismo producto. el ID del producto es el que genero en mongoDB Atlas cuando se registro el producto.
 
@@ -73,6 +85,8 @@ Se crearan los esquemas para el modelado de los datos de carts, products y messa
 
 - El esquema del prductos del carts se crea con el siguiente formato de datos, con el nombre de cartProductSchema:
 
+```javascript
+
 {
     _id: {
         type: String
@@ -82,13 +96,21 @@ Se crearan los esquemas para el modelado de los datos de carts, products y messa
     }
 }
 
+```
+
 asi mismo este esquema se lleva al esquema de carts de la siguiente forma:
+
+```javascript
 
 {
     products: [cartProductSchema]
 }
 
+```
+
 - El esquema de productos se define de la siguiente forma:
+
+```javascript
 
 {
     code: {
@@ -128,7 +150,11 @@ asi mismo este esquema se lleva al esquema de carts de la siguiente forma:
     }
 }
 
+```
+
 - Y el esquema de mensajes primero se define el mensaje se colocará dentro del arreglo de mensajes, son el nombre de messageTypeSchema:
+
+```javascript
 
 {
     user: {
@@ -139,11 +165,18 @@ asi mismo este esquema se lleva al esquema de carts de la siguiente forma:
     }
 }
 
+```
+
 Y en el esquema del arreglo de mensajes se define de la siguiente manera:
+
+```javascript
 
 {
     messages: [messageTypeSchema]
 }
+
+```
+
 
 #FIN
 
